@@ -65,7 +65,8 @@ let dataHandler = {
 				}
 				break;
 			case "-miss":
-				// TODO
+				// TODO: repeat misses / multi misses
+				soundManager.play(soundManager.chooseRandom("miss"));
 				break;
 			case "-weather":
 				if (params[1] == "[upkeep]") {

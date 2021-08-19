@@ -15,7 +15,14 @@
             "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/General Commentary/Weather/",
             "files": [
                 "BANK_4A2_INSTR_0000_SND_0000.wav",
-                "BANK_4A3_INSTR_0000_SND_0000.wav"
+                "BANK_4A3_INSTR_0000_SND_0000.wav",
+            ]
+        },
+        {
+            "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/Move Effects/Weather/",
+            "files": [
+                "BANK_51F_INSTR_0000_SND_0000.wav",
+                "BANK_520_INSTR_0000_SND_0000.wav"
             ]
         }
     ],
@@ -25,6 +32,12 @@
             "files": [
                 "BANK_4A8_INSTR_0000_SND_0000.wav"
             ]
+        },
+        {
+            "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/Move Effects/Weather/",
+            "files": [
+                "BANK_523_INSTR_0000_SND_0000.wav"
+            ]
         }
     ],
     "sand_start": [
@@ -32,7 +45,17 @@
             "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/General Commentary/Weather/",
             "files": [
                 "BANK_4A4_INSTR_0000_SND_0000.wav",
-                "BANK_4A5_INSTR_0000_SND_0000.wav"
+                "BANK_4A5_INSTR_0000_SND_0000.wav",
+                "BANK_52D_INSTR_0000_SND_0000.wav"
+            ]
+        },
+        {
+            "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/Move Effects/Weather/",
+            "files": [
+                "BANK_52A_INSTR_0000_SND_0000.wav",
+                "BANK_52C_INSTR_0000_SND_0000.wav",
+                "BANK_528_INSTR_0000_SND_0000.wav",
+                "BANK_529_INSTR_0000_SND_0000.wav"
             ]
         }
     ],
@@ -41,6 +64,12 @@
             "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/General Commentary/Weather/",
             "files": [
                 "BANK_4A9_INSTR_0000_SND_0000.wav"
+            ]
+        },
+        {
+            "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/Move Effects/Weather/",
+            "files": [
+                "BANK_52B_INSTR_0000_SND_0000.wav"
             ]
         }
     ],
@@ -51,6 +80,14 @@
                 "BANK_4A6_INSTR_0000_SND_0000.wav",
                 "BANK_4A7_INSTR_0000_SND_0000.wav"
             ]
+        },
+        {
+            "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/Move Effects/Weather/",
+            "files": [
+                "BANK_52B_INSTR_0000_SND_0000.wav",
+                "BANK_524_INSTR_0000_SND_0000.wav",
+                "BANK_527_INSTR_0000_SND_0000.wav"
+            ]
         }
     ],
     "sun_end": [
@@ -58,6 +95,35 @@
             "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/General Commentary/Weather/",
             "files": [
                 "BANK_4AA_INSTR_0000_SND_0000.wav"
+            ]
+        },
+        {
+            "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/Move Effects/Weather/",
+            "files": [
+                "BANK_526_INSTR_0000_SND_0000.wav"
+            ]
+        }
+    ],
+    "miss": [
+        {
+            "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/Move Effects/Miss or Ineffective/",
+            "files": [
+                "BANK_3CD_INSTR_0000_SND_0000.wav",
+                "BANK_3CE_INSTR_0000_SND_0000.wav",
+                "BANK_3CF_INSTR_0000_SND_0000.wav",
+                "BANK_3D2_INSTR_0000_SND_0000.wav",
+                "BANK_3D3_INSTR_0000_SND_0000.wav"
+            ]
+        }
+    ],
+    "miss_again": [
+        {
+            "root": "Pok‚mon Stadium 2 - Announcer - Battle Commentary/Move Effects/Miss or Ineffective/",
+            "files": [
+                "BANK_3D0_INSTR_0000_SND_0000.wav",
+                "BANK_3D1_INSTR_0000_SND_0000.wav",
+                "BANK_3D4_INSTR_0000_SND_0000.wav",
+                "BANK_3D5_INSTR_0000_SND_0000.wav"
             ]
         }
     ],
