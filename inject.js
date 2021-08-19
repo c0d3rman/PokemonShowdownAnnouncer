@@ -31,6 +31,23 @@ setInterval(function() {
 			
 			// Make sure the room gets the data too
 			this.add(data);
-		}
+		};
+
+		// Hijack the mute function so we can mute too
+		let sendMuteMessage = function(muted) {
+			window.postMessage({
+				type: "SHOWDOWN_ANNOUNCER",
+				source: "PAGE",
+				content: "MUTE",
+				muted: muted
+			}, "*");
+		};
+		window.BattleSound._setMute_orig = window.BattleSound.setMute;
+		window.BattleSound.setMute = function(muted) {
+			sendMuteMessage(muted);
+			window.BattleSound._setMute_orig(muted);
+		};
+		// Send initial mute data
+		sendMuteMessage(window.BattleSound.muted);
 	}
 }, 100);

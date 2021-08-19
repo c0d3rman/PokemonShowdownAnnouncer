@@ -128,13 +128,22 @@ console.log("hi ***********");
 					if (params[1].startsWith("move: ")) {
 						let move = params[1].split(": ")[1];
 						switch (move) {
-							case "Protect", "Detect", "Baneful Bunker", "Crafty Shield", "King's Shield", "Mat Block", "Obstruct", "Quick Guard", "Spiky Shield", "Wide Guard", "Max Guard":
+							case "Protect":
+							case "Detect":
+							case "Baneful Bunker":
+							case "Crafty Shield":
+							case "King's Shield":
+							case "Mat Block":
+							case "Obstruct":
+							case "Quick Guard":
+							case "Spiky Shield":
+							case "Wide Guard":
+							case "Max Guard":
 								soundManager.play("blocked");
 								break;
 							case "Substitute":
 								soundManager.play("sub_hit");
 								break;
-
 						}
 					}
 					break;
@@ -189,6 +198,9 @@ console.log("hi ***********");
 		switch (event.data.content) {
 			case "SIM_DATA":
 				dataHandler.handle(event.data.text)
+				break;
+			case "MUTE":
+				soundManager.audio.muted = event.data.muted;
 				break;
 			case "ROOM_CHANGE":
 				currentRoom = event.data.roomID
