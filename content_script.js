@@ -2,7 +2,6 @@
 // - Injecting the main script into the page
 // - Playing sounds when requested by the main script
 
-console.log("hi ***********");
 (async function() {
 	let assetMap;
 	await fetch(chrome.runtime.getURL('assets/assetMap.json')).then((response) => response.json()).then((result) => assetMap = result);
@@ -47,7 +46,6 @@ console.log("hi ***********");
 			}
 		},
 		_play: function(url) {
-			console.log(this);
 			if (!(url in this.soundsPlayed)) {
 				this.soundsPlayed[url] = 0;
 			}
