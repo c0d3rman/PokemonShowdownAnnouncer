@@ -67,7 +67,10 @@ setInterval(function() {
 		room.battle.scene.teamPreview = room.battle.scene._teamPreview_orig;
 	}
 
+	let currentWeather = "";
+
 	let dataHandler = {
+		currentMove: {},
 		handle: function(data) {
 			let lines = data.split("\n");
 			if (lines[0] == "|init|battle") {
@@ -84,13 +87,21 @@ setInterval(function() {
 			params.shift();
 
 			switch (command) {
+				case "":
+					this.completeMove();
+					break;
 				case "move":
+					this.completeMove();
+
 					let move = params[1];
+					this.currentMove = {"name": move, "target": params[2]};
 					if (assetMap.moves.includes(move)) {
 						soundManager.play(move, "move");
 					}
 					break;
 				case "switch":
+					this.completeMove();
+
 					let pokemon = params[1].split(", ")[0];
 					if (assetMap.pokemon.includes(pokemon)) {
 						soundManager.play(pokemon, "pokemon");
@@ -103,7 +114,7 @@ setInterval(function() {
 					break;
 				case "-miss":
 					// TODO: repeat misses / multi misses
-					soundManager.play("miss");
+					this.currentMove.miss = true;
 					break;
 				case "-weather":
 					if (params[1] == "[upkeep]") {
@@ -120,7 +131,7 @@ setInterval(function() {
 							soundManager.play("sun_start");
 							break;
 						case "none":
-							switch (rooms[currentRoom].weather) {
+							switch (currentWeather) {
 								case "Sandstorm":
 									soundManager.play("sand_end");
 									break;
@@ -133,9 +144,10 @@ setInterval(function() {
 							}
 
 					}
-					rooms[currentRoom].weather = params[0];
+					currentWeather = params[0];
 					break;
 				case "-fail":
+					this.currentMove.fail = true;
 					soundManager.play("fail");
 					break;
 				case "-activate":
@@ -186,18 +198,95 @@ setInterval(function() {
 					}
 					break;
 				case "-immune":
-					soundManager.play("no_effect");
+					this.currentMove.no_effect = true;
 					break;
 				case "-crit":
-					soundManager.play("crit");
+					this.currentMove.crit = true;
 					break;
 				case "-supereffective":
-					soundManager.play("supereffective");
+					this.currentMove.supereffective = true;
 					break;
 				case "-resisted":
-					soundManager.play("not_very_effective");
+					this.currentMove.resisted = true;
+					break;
+				case "-damage":
+					// If there's an active move and its target just got damaged
+					if (this.currentMove.name && params[0] == this.currentMove.target) {
+						let hpStr = params[1].split(" ")[0];
+
+						let newHP;
+						if (hpStr == "0") {
+							newHP = 0
+						} else {
+							let hpParts = hpStr.split("/");
+							newHP = hpParts[0] / hpParts[1];
+						}
+
+						let targetSide = this.currentMove.target.slice(0, 2);
+						let target = room.battle.getSide(targetSide).active[0];
+						let oldHP = target.hp / target.maxHP;
+
+						this.currentMove.hpBefore = oldHP
+						this.currentMove.hpAfter = newHP;
+					}
+					break;
+				case "cant":
+					if (params[1] == "flinch") {
+						soundManager.play("flinch");
+					}
+					break;
 			}
 		},
+		completeMove: function() {
+			if (!this.currentMove.name) {
+				return;
+			}
+
+			if (this.currentMove.no_effect) {
+				soundManager.play("no_effect");
+			} else if (this.currentMove.miss) {
+				soundManager.play("miss");
+			} else if (this.currentMove.hpAfter) {
+				if (this.currentMove.crit) {
+					soundManager.play("attack_crit");
+				} else if (this.currentMove.supereffective) {
+					soundManager.play("supereffective");
+				} else if (this.currentMove.resisted) {
+					soundManager.play("not_very_effective");
+				}
+				
+				if (this.currentMove.hpAfter == 0) {
+					if (room.battle.turn == 1) {
+						soundManager.play("ko_firstturn");
+					} else if (this.currentMove.hpBefore == 1) {
+						soundManager.play("ko_ohko");
+					} else if (this.currentMove.hpBefore < 0.25) {
+						soundManager.play("ko_lighthit");
+					} else {
+						soundManager.play("ko");
+					}
+				} else {
+					let damage = this.currentMove.hpAfter - this.currentMove.hpBefore;
+					if (this.currentMove.hpAfter < 0.25) {
+						soundManager.play("attack_redhealth");
+					} else if (damage > 0.5) {
+						if (room.battle.turn == 1) {
+							soundManager.play("attack_strong_firstturn");
+						} else if (this.currentMove.resisted) {
+							soundManager.play("attack_strong_nve");
+						} else {
+							soundManager.play("attack_strong");
+						}
+					} else if (damage < 0.25) {
+						soundManager.play("attack_lighthit");
+					} else {
+						soundManager.play("attack");
+					}
+				}
+			}
+
+			this.currentMove = {};
+		}
 	}
 
 	// Hijack the function that receives Sim Protocol messages from the server

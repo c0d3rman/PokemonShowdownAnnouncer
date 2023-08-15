@@ -10,6 +10,7 @@ console.log("hi ***********");
 	let soundManager = {
 		audio: new Audio(),
 		queue: [],
+		soundsPlayed: {},
 		play: function(name, type="sound") {
 			let url;
 
@@ -27,7 +28,13 @@ console.log("hi ***********");
 					url = "assets/pokemon/" + name + ".wav";
 					break;
 				case "sound":
-					url = "assets/" + name + "/" + assetMap[name][Math.floor(Math.random() * assetMap[name].length)];
+					let urlBase = "assets/" + name + "/";	
+
+					let all = assetMap[name];
+					let minTimesPlayed = all.reduce((x, y) => Math.min(x, this.soundsPlayed[urlBase + y]) || 0, Infinity);
+					let candidates = all.filter((x) => (this.soundsPlayed[urlBase + x] || 0) == minTimesPlayed);
+
+					url = urlBase + candidates[Math.floor(Math.random() * candidates.length)];
 					break;
 				default:
 					throw "Unknown play type " + type;
@@ -40,6 +47,11 @@ console.log("hi ***********");
 			}
 		},
 		_play: function(url) {
+			console.log(this);
+			if (!(url in this.soundsPlayed)) {
+				this.soundsPlayed[url] = 0;
+			}
+			this.soundsPlayed[url]++;
 			this.audio.src = chrome.runtime.getURL(url);
 			this.audio.play();
 		},
